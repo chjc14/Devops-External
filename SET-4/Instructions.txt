@@ -1,0 +1,257 @@
+PART 1 – Containerized Interactive Java Calculator using Docker
+1. Final folder structure
+Create a folder named JavaCalculator.
+JavaCalculator/
+│
+├── Calculator.java
+└── Dockerfile
+
+
+2. Step 1 – Create project folder
+Open CMD:
+cd /d "D:\Jishnu\Jishnu 5th SEM\LAB SUBJECTS\DEVOPS LAB\EXTERNAL-LAB PRACTICE\SET-6"
+
+
+mkdir JavaCalculator
+
+
+cd JavaCalculator
+
+
+3. Step 2 – Create Calculator.java
+Create Calculator.java and paste this code:
+import java.util.Scanner;
+
+public class Calculator {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Simple Calculator");
+
+        System.out.print("Enter first number: ");
+        double a = sc.nextDouble();
+
+        System.out.print("Enter second number: ");
+        double b = sc.nextDouble();
+
+        System.out.println("1. Addition");
+        System.out.println("2. Subtraction");
+        System.out.println("3. Multiplication");
+        System.out.println("4. Division");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 1:
+                System.out.println("Result: " + (a + b));
+                break;
+
+            case 2:
+                System.out.println("Result: " + (a - b));
+                break;
+
+            case 3:
+                System.out.println("Result: " + (a * b));
+                break;
+
+            case 4:
+                if (b != 0)
+                    System.out.println("Result: " + (a / b));
+                else
+                    System.out.println("Cannot divide by zero");
+                break;
+
+            default:
+                System.out.println("Invalid choice");
+        }
+
+        sc.close();
+    }
+}
+
+
+4. Step 3 – Create Dockerfile
+Create a file named Dockerfile:
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+COPY Calculator.java .
+
+RUN javac Calculator.java
+
+CMD ["java", "Calculator"]
+
+
+Explanation:
+- FROM: Uses Java 17 JDK image.
+- WORKDIR: Sets working directory.
+- COPY: Copies Java source code into the image.
+- RUN: Compiles Java program.
+- CMD: Executes the calculator.
+5. Step 4 – Pull Java Docker image
+docker pull eclipse-temurin:17-jdk
+
+
+6. Step 5 – Build Docker image
+docker build -t java-calculator .
+
+
+Expected output:
+Successfully tagged java-calculator:latest
+
+
+Verify:
+docker images
+
+
+7. Step 6 – Create and run interactive container
+Execute:
+docker run -it --name calculator-container java-calculator
+
+
+Here:
+- -i: Keeps standard input open.
+- -t: Creates a terminal.
+- --name: Assigns a container name.
+8. Step 7 – Test the calculator
+Example input:
+Simple Calculator
+
+Enter first number: 20
+Enter second number: 10
+
+1. Addition
+2. Subtraction
+3. Multiplication
+4. Division
+
+Enter choice: 1
+
+Result: 30.0
+
+
+Expected result
+ Your interactive Java calculator runs inside the Docker container.
+
+
+
+
+Revised folder structure
+WeeklyTimetable/
+│
+├── index.html
+└── Jenkinsfile
+
+
+Revised Jenkinsfile
+Use this simpler pipeline:
+pipeline {
+
+    agent any
+
+    triggers {
+        pollSCM('H/2 * * * *')
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Weekly Timetable Build Successful'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'if exist index.html (echo HTML file found) else (exit /b 1)'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Weekly Timetable Deployment Successful'
+            }
+        }
+    }
+}
+
+
+Commands in execution order
+1. Create project folder
+mkdir WeeklyTimetable
+cd WeeklyTimetable
+
+
+2. Create index.html and Jenkinsfile.
+
+3. Initialize Git
+git init
+
+
+4. Add files
+git add .
+
+
+5. Commit
+git commit -m "Created Weekly Timetable"
+
+
+6. Set branch
+git branch -M main
+
+
+7. Connect GitHub repository
+git remote add origin https://github.com/YOUR_USERNAME/WeeklyTimetable.git
+
+
+8. Push to GitHub
+git push -u origin main
+
+
+Jenkins configuration
+1. Open http://localhost:8080.
+2. Click New Item.
+3. Enter WeeklyTimetable-Pipeline.
+4. Select Pipeline.
+5. Select Pipeline script from SCM.
+6. Select Git.
+7. Enter your GitHub repository URL.
+8. Branch: */main.
+9. Script Path: Jenkinsfile.
+10. Click Save → Build Now.
+Expected pipeline output
+WeeklyTimetable-Pipeline
+Checkout
+Success
+
+Build
+Success
+
+Test
+Success
+
+Deploy
+Success
+
+
+Demonstrate CI/CD
+1. Modify the timetable in index.html.
+2. Save the file.
+3. Execute:
+git add .
+git commit -m "Updated timetable"
+git push origin main
+
+
+4. Jenkins detects the change through SCM polling.
+5. Jenkins automatically executes the pipeline again.

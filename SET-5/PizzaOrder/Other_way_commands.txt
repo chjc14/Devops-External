@@ -1,0 +1,5 @@
+kubectl apply -f deployment.yaml
+
+kubectl apply -f service.yaml
+
+kubectl port-forward service/pizza 8088:80

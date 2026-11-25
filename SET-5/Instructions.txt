@@ -1,0 +1,41 @@
+Alternative method – Without YAML files
+Assuming you have already built your Docker image:
+docker build -t pizza-app .
+
+
+Step 1: Check Kubernetes
+kubectl get nodes
+
+
+Step 2: Create Kubernetes Deployment
+kubectl create deployment pizza-deployment --image=pizza-app
+
+
+Expected output:
+deployment.apps/pizza-deployment created
+
+
+Step 3: Check pods
+kubectl get pods
+
+
+Wait until the pod status becomes Running.
+
+Step 4: Expose the Deployment as a Service
+kubectl expose deployment pizza-deployment --type=ClusterIP --port=80 --target-port=80
+
+
+Expected output:
+service/pizza-deployment exposed
+
+
+Step 5: Check Services
+kubectl get services
+
+
+Step 6: Port forwarding
+kubectl port-forward service/pizza-deployment 8080:80
+
+
+Step 7: Open browser
+http://localhost:8080

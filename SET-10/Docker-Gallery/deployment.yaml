@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: gallery-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: gallery
+
+  template:
+    metadata:
+      labels:
+        app: gallery
+
+    spec:
+      containers:
+        - name: gallery-container
+          image: gallery-image:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80

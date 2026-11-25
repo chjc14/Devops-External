@@ -1,0 +1,76 @@
+Combined command sequence – HTML Gallery + Docker + Kubernetes
+Experiment 1: HTML Gallery and GitHub upload
+First, manually create these files in VS Code:
+Docker-Gallery/
+├── index.html
+└── style.css
+
+
+Then open the terminal inside the project folder.
+
+GitHub commands:
+git init
+git add .
+git commit -m "Create HTML Image Gallery"
+git branch -M main
+git remote add origin YOUR_GITHUB_REPOSITORY_URL
+git push -u origin main
+
+
+Experiment 2: Docker Image and Port Mapping
+Continue in the same project folder after creating the Dockerfile.
+docker --version
+
+
+docker build -t gallery-image .
+
+
+docker images
+
+
+docker run -d -p 8097:80 --name gallery-container gallery-image
+
+
+docker ps
+
+
+Open:
+
+http://localhost:8097
+Experiment 3: Kubernetes Deployment + Service
+First, enable Kubernetes in Docker Desktop.
+
+Execute:
+kubectl version --client
+
+
+kubectl config current-context
+
+
+kubectl get nodes
+
+
+Deploy the application:
+kubectl apply -f deployment.yaml
+
+
+Create the Service:
+kubectl apply -f service.yaml
+
+
+Verify everything:
+kubectl get deployments
+
+
+kubectl get pods
+
+
+kubectl get services
+
+
+kubectl get all
+
+
+Open:
+
+http://localhost:30080

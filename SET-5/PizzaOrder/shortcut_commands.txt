@@ -1,0 +1,5 @@
+kubectl create deployment pizza --image=pizza-app
+
+kubectl expose deployment pizza --type=NodePort --port=80
+
+kubectl port-forward service/pizza 8081:80

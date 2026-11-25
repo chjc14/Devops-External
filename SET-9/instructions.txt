@@ -1,0 +1,72 @@
+SET-9 – Combined Command Sequence
+Experiment 1: Create HTML Resume and Push to GitHub
+Step 1: Create project folder
+Create a folder named HTML-Resume in VS Code.
+HTML-Resume/
+│
+└── index.html
+
+
+Write your HTML Resume containing:
+- Education
+- Skills
+- Projects
+Step 2: Open terminal inside the project folder
+Execute these commands in order:
+git init
+git add .
+git commit -m "Create HTML Resume"
+git branch -M main
+git remote add origin YOUR_GITHUB_REPOSITORY_URL
+git push -u origin main
+
+
+Experiment 1 complete
+Verify that your index.html is uploaded to GitHub.
+
+Experiment 2: Build a Containerized Application Using Dockerfile
+Step 1: Create Dockerfile
+Inside the same HTML-Resume folder, create a file named exactly Dockerfile.
+
+Folder structure:
+HTML-Resume/
+│
+├── index.html
+└── Dockerfile
+
+
+Dockerfile code:
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80
+
+
+Step 2: Open terminal inside HTML-Resume
+Execute all commands in order:
+
+1. Check Docker installation
+docker --version
+
+
+2. Build Docker image
+docker build -t resume-image .
+
+
+3. Verify Docker image
+docker images
+
+
+4. Run container with port mapping
+docker run -d -p 8098:80 --name resume-container resume-image
+
+
+5. Verify running container
+docker ps
+
+
+Step 3: Open application
+Visit:
+HTML Resume Application
+http://localhost:8098

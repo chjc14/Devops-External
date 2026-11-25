@@ -1,0 +1,159 @@
+SET-8 – Combined Execution Sequence
+There are three experiments:
+1. Java project setup for Selenium WebDriver.
+2. JavaScript Calculator with Selenium automated testing using Java.
+3. Jenkins job scheduled to run every 2 minutes and print system date/time.
+
+Experiment 1: Java Project Setup for Selenium WebDriver
+Step 1: Check Java installation
+Open CMD or VS Code terminal.
+
+Execute:
+java -version
+
+
+javac -version
+
+
+These commands verify Java JDK installation.
+Step 2: Open Apache NetBeans
+1. Open Apache NetBeans.
+2. Select File → New Project.
+3. Choose Java with Ant.
+4. Select Java Application.
+5. Project name: CalculatorSelenium.
+6. Click Finish.
+Step 3: Add Selenium libraries
+1. Download Selenium Java client libraries.
+2. Extract the downloaded ZIP file.
+3. Right-click your project in NetBeans.
+4. Select Properties → Libraries.
+5. Click Add JAR/Folder.
+6. Add the Selenium JAR files and required dependency JARs from the extracted folder.
+Step 4: Verify project
+Your project should contain:
+CalculatorSelenium/
+│
+└── Source Packages/
+    └── FirstSeleniumPro2.java
+
+
+Advantages of Selenium:
+- Open-source automation tool.
+- Supports multiple browsers.
+- Supports Java, Python, JavaScript and other languages.
+- Platform independent.
+- Supports automated web application testing.
+- Integrates with Jenkins for CI/CD.
+
+Experiment 2: JavaScript Calculator with Selenium Testing
+Step 1: Create HTML application
+Create a folder:
+CalculatorTesting/
+│
+└── javscriptCalculator.html
+
+
+Create the HTML calculator in VS Code.
+
+The application should contain:
+- Two number input fields.
+- Addition operation.
+- Result display.
+Make sure the HTML elements have IDs:
+num1
+num2
+result
+
+
+Step 2: Create Java Selenium project
+Open Apache NetBeans.
+
+Create a Java with Ant → Java Application project named:
+
+CalculatorSelenium
+
+Create a Java class named:
+
+FirstSeleniumPro2.java
+
+Add Selenium JAR files through Project Properties → Libraries, as explained in Experiment 1.
+Step 3: Run Selenium testing
+The Java program uses ChromeDriver to:
+1. Open Google Chrome.
+2. Load the local HTML calculator.
+3. Enter two numbers.
+4. Click the addition button.
+5. Verify the result.
+Use these test cases:
+First number	Second number	Expected result
+10	20	30
+5	7	12
+
+The HTML file can be opened using its local file path through driver.get(...).
+Step 4: Execute the Java program
+In NetBeans:
+1. Right-click the project.
+2. Select Clean and Build.
+3. Right-click again.
+4. Select Run.
+Expected output:
+Result: 30
+Test Passed
+
+Result: 12
+Test Passed
+
+BUILD SUCCESSFUL
+
+
+Experiment 2 verification
+
+Experiment 3: Jenkins Job – Run Every 2 Minutes
+Step 1: Open Jenkins
+Open your browser:
+
+http://localhost:8080
+
+Log in to Jenkins.
+Step 2: Create a new job
+1. Click New Item.
+2. Enter job name: DateTimeJob.
+3. Select Freestyle project.
+4. Click OK.
+Step 3: Configure schedule
+1. Scroll to Build Triggers.
+2. Select Build periodically.
+3. Enter this schedule:
+H/2 * * * *
+
+
+This schedules the job to run approximately every 2 minutes.
+Step 4: Configure build step
+1. Scroll to Build Steps.
+2. Click Add build step.
+3. Select Execute Windows batch command.
+4. Enter:
+echo System Date and Time:
+echo %date% %time%
+
+
+Step 5: Save and execute
+1. Click Save.
+2. Click Build Now.
+3. Open Build History.
+4. Select the latest build.
+5. Click Console Output.
+Expected output:
+System Date and Time:
+11/26/2026 02:40:00
+
+Finished: SUCCESS
+
+
+The actual date and time will depend on when Jenkins executes the build.
+Step 6: Verify automatic execution
+Wait for the next scheduled execution.
+
+Check Build History. A new build should appear approximately every two minutes.
+Experiment 3 complete

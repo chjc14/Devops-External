@@ -1,0 +1,114 @@
+SET-6 – Question 1
+Develop test cases for the containerized web application using Selenium.
+1. Final folder structure
+Create this folder:
+SeleniumDockerTesting/
+│
+├── Dockerfile
+├── index.html
+└── SeleniumDockerTest.py
+
+
+2. Step 1 – Open CMD and navigate to the folder
+cd /d "D:\Jishnu\Jishnu 5th SEM\LAB SUBJECTS\DEVOPS LAB\EXTERNAL-LAB PRACTICE\SET-6\SeleniumDockerTesting"
+
+
+3. Step 2 – Pull required Docker images
+docker pull nginx:alpine
+
+
+docker pull selenium/standalone-chrome
+
+
+4. Step 3 – Create Dockerfile
+Create a file named Dockerfile and add:
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/
+EXPOSE 80
+
+
+5. Step 4 – Create index.html
+Create index.html and add:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+
+    <input id="name" placeholder="Enter Name">
+    <input id="email" placeholder="Enter Email">
+    <button onclick="register()">Submit</button>
+
+    <p id="result"></p>
+
+    <script>
+        function register() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+
+            if (name == "" || email == "") {
+                alert("Please fill all fields!");
+            } else {
+                document.getElementById("result").innerHTML =
+                    "Registration Successful!";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+6. Step 5 – Build Docker image
+docker build -t student-app .
+
+
+7. Step 6 – Run the web application container
+docker run -d -p 8090:80 --name student-container student-app
+
+
+Verify:
+docker ps
+
+
+Open in browser:
+http://localhost:8090
+
+
+You should see the Student Registration Form.
+8. Step 7 – Start Selenium Chrome container
+docker run -d -p 4444:4444 --name selenium selenium/standalone-chrome
+
+
+Verify:
+docker ps
+
+
+Check Selenium Grid:
+curl http://127.0.0.1:4444/status
+
+
+Expected:
+"Selenium Grid ready."
+
+
+9. Step 8 – Install Selenium Python package
+py -m pip install selenium
+
+
+10. Step 9 – Create SeleniumDockerTest.py
+Create the file and add:
+from selenium import webdriverfrom selenium.webdriver.common.by import Byoptions = webdriver.ChromeOptions()driver = webdriver.Remote(    command_executor="http://127.0.0.1:4444",    options=options)driver.set_page_load_timeout(30)driver.get("http://host.docker.internal:8090")print("Title:", driver.title)# Test Case 1: Empty fieldsdriver.find_element(By.TAG_NAME, "button").click()alert = driver.switch_to.alertprint("Test 1:", alert.text)alert.accept()# Test Case 2: Valid registrationdriver.find_element(By.ID, "name").send_keys("Jishnu")driver.find_element(By.ID, "email").send_keys("jishnu@gmail.com")driver.find_element(By.TAG_NAME, "button").click()result = driver.find_element(By.ID, "result").textprint("Test 2:", result)driver.quit()
+
+
+
+11. Step 10 – Execute the Python program
+py SeleniumDockerTest.py
+
+
+12. Expected output
+BUILD / TEST SUCCESS
+Title: Student Registration
+Test 1: Please fill all fields!
+Test 2: Registration Successful!

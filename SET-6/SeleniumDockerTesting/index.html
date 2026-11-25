@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+    <h2>Student Registration Form</h2>
+
+    <input id="name" placeholder="Enter Name">
+    <input id="email" placeholder="Enter Email">
+    <button onclick="register()">Submit</button>
+
+    <p id="result"></p>
+
+    <script>
+        function register() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+
+            if (name == "" || email == "") {
+                alert("Please fill all fields!");
+            } else {
+                document.getElementById("result").innerHTML =
+                    "Registration Successful!";
+            }
+        }
+    </script>
+</body>
+</html>

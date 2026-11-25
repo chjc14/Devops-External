@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pizza Order Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Pizza Order Form</h2>
+
+    <form id="pizzaForm">
+        <input id="name" placeholder="Customer Name">
+
+        <input id="phone" placeholder="Phone Number">
+
+        <select id="size">
+            <option value="">Select Pizza Size</option>
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+        </select>
+
+        <select id="topping">
+            <option value="">Select Topping</option>
+            <option>Cheese</option>
+            <option>Paneer</option>
+            <option>Mushroom</option>
+        </select>
+
+        <input type="number" id="quantity" placeholder="Quantity">
+
+        <textarea id="address" placeholder="Delivery Address"></textarea>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <script src="validate.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+
+# Initialize
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+
+# Branch 1
+git switch -c branch1
+# Create part1.txt containing HELLO
+git add .
+git commit -m "Add first secret word"
+
+# Branch 2
+git switch main
+git switch -c branch2
+# Create part2.txt containing WORLD
+git add .
+git commit -m "Add second secret word"
+
+# Branch 3
+git switch main
+git switch -c branch3
+# Create part3.txt containing WELCOME
+git add .
+git commit -m "Add third secret word"
+
+# Merge into main
+git switch main
+git merge branch1
+git merge branch2
+git merge branch3
+
+# Verify
+git branch
+git log --oneline --graph --all
+dir
+type part1.txt
+type part2.txt
+type part3.txt
+
+
+
+1. Check Node.js
+node -v
+
+
+2. Check npm
+npm -v
+
+
+3. Initialize Node.js project
+npm init -y
+
+
+4. Install Selenium WebDriver
+npm install selenium-webdriver
+
+
+5. Run the JavaScript Selenium program
+node CalculatorTest.js

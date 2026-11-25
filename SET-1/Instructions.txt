@@ -1,0 +1,228 @@
+SET-1 – DevOps Lab Preparation
+We'll complete all three questions in execution order. For Q1 and Q2, we'll use the same event registration application, so you only need to create the files once and then containerize that application using Docker.
+1. Create a simple Event Registration Form
+Aim: To develop an event registration form using HTML, CSS, and JavaScript validation.
+Step 1: Create the project folder
+Open Windows CMD:
+mkdir EventRegistration
+cd EventRegistration
+
+
+Step 2: Create index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Event Registration Form</h1>
+
+        <form id="regForm">
+
+            <input type="text" id="name" placeholder="Full Name">
+
+            <input type="email" id="email" placeholder="Email">
+
+            <input type="tel" id="phone" placeholder="Phone Number">
+
+            <select id="event">
+                <option value="">Select Event</option>
+                <option value="Technical">Technical Event</option>
+                <option value="Cultural">Cultural Event</option>
+                <option value="Sports">Sports Event</option>
+            </select>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <script src="validate.js"></script>
+</body>
+</html>
+
+
+
+Step 3: Create styles.css
+
+body {
+    font-family: Arial;
+    background: #f2f2f2;
+}
+
+.container {
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    text-align: center;
+}
+
+input, select {
+    width: 90%;
+    padding: 10px;
+    margin: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    background: blue;
+    color: white;
+    border: none;
+}
+
+
+
+Step 4: Create validate.js
+
+document.getElementById("regForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let event = document.getElementById("event").value;
+
+    if (name === "" || email === "" || phone === "" || event === "") {
+        document.getElementById("message").innerHTML =
+            "Please fill all fields!";
+    } else {
+        document.getElementById("message").innerHTML =
+            "Registration Successful!";
+    }
+});
+
+
+
+Step 5: Project structure
+EventRegistration/
+│
+├── index.html
+├── styles.css
+└── validate.js
+
+
+Step 6: Test the application
+1. Save all three files.
+2. Double-click index.html.
+3. Try clicking Register without entering details.
+4. Enter all details and click Register again.
+Expected messages:
+Please fill all fields!
+
+
+Registration Successful!
+
+
+Q1 completed
+
+2. Build a containerized version using Docker
+Aim: To create a Docker image for the Event Registration application and run it inside a container.
+Step 1: Create a Dockerfile
+Inside the same EventRegistration folder, create a file named Dockerfile (no extension).
+
+Add:
+FROM nginx:alpine
+
+COPY index.html /usr/share/nginx/html/
+COPY styles.css /usr/share/nginx/html/
+COPY validate.js /usr/share/nginx/html/
+
+EXPOSE 80
+
+
+Step 2: Final project structure
+EventRegistration/
+│
+├── index.html
+├── styles.css
+├── validate.js
+└── Dockerfile
+
+
+Step 3: Execute Docker commands in order
+Open CMD inside the EventRegistration folder.
+
+1. Check Docker installation
+docker --version
+
+
+2. Pull the Nginx image
+docker pull nginx:alpine
+
+
+3. Build the application image
+docker build -t event-app .
+
+
+Expected output:
+[+] Building ... FINISHED
+Successfully tagged event-app:latest
+
+
+4. Check Docker images
+docker images
+
+
+Expected output:
+REPOSITORY    TAG       IMAGE ID
+event-app     latest    ...
+nginx         alpine    ...
+
+
+5. Create and run the container
+docker run -d -p 8080:80 --name event-container event-app
+
+
+Expected output:
+<container_id>
+
+
+6. Check running containers
+docker ps
+
+
+Expected output:
+CONTAINER ID   IMAGE       PORTS
+...            event-app   0.0.0.0:8080->80/tcp
+
+
+Step 4: Open the application
+Open your browser and visit:
+Event Registration Application
+
+
+
+
+
+
+
+bizfly.vn
+
+
+Test the registration form again. It should work inside the Docker container.
+Step 5: Stop and remove the container (optional)
+After completing the experiment:
+docker stop event-container
+docker rm event-container
+
+
+To run it again later:
+docker start event-container
+
+
+Docker commands – purpose
+Command	Purpose
+docker pull	Downloads an image
+docker build	Builds an image from Dockerfile
+docker images	Lists available images
+docker run	Creates and starts a container
+docker ps	Lists running containers
+docker stop	Stops a container
+docker rm	Removes a container

@@ -1,0 +1,255 @@
+2. Java application to convert phone numbers into digits using Docker
+Example: 800888TEST → (800) 888-8378
+Step 1: Create the project folder
+Open CMD and execute:
+mkdir PhoneConverter
+cd PhoneConverter
+
+
+Step 2: Create Convert.java
+Create a file named Convert.java and add:
+
+import java.util.Scanner;
+
+public class Convert {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter phone number: ");
+        String input = sc.nextLine().toUpperCase();
+
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String digits = "22233344455566677778889999";
+
+        String result = "";
+
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+
+            if (Character.isLetter(ch)) {
+                result += digits.charAt(letters.indexOf(ch));
+            } else if (Character.isDigit(ch)) {
+                result += ch;
+            }
+        }
+
+        if (result.length() == 10) {
+            System.out.println("Converted number: (" +
+                result.substring(0, 3) + ") " +
+                result.substring(3, 6) + "-" +
+                result.substring(6));
+        } else {
+            System.out.println("Enter a valid 10-digit phone number.");
+        }
+
+        sc.close();
+    }
+}
+
+
+
+Step 3: Create the Dockerfile
+Create a file named Dockerfile (without an extension):
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY Convert.java .
+RUN javac Convert.java
+CMD ["java", "Convert"]
+
+
+Step 4: Project structure
+PhoneConverter/
+│
+├── Convert.java
+└── Dockerfile
+
+
+Step 5: Execute Docker commands in order
+Run these commands in the same CMD window, inside the PhoneConverter folder.
+
+1. Download the Java image
+docker pull eclipse-temurin:17-jdk
+
+
+2. Build the Docker image
+docker build -t phone-converter .
+
+
+Expected output (simplified):
+[+] Building ... FINISHED
+Successfully tagged phone-converter:latest
+
+
+3. Check the created image
+docker images
+
+
+Expected output:
+REPOSITORY        TAG       IMAGE ID
+phone-converter   latest    ...
+
+
+4. Create and run the container
+docker run -it --name phone-container phone-converter
+
+
+Enter:
+Enter phone number: 800888TEST
+
+
+Expected output:
+Converted number: (800) 888-8378
+
+
+5. Check the container
+docker ps -a
+
+
+You should see phone-container with status Exited after the program finishes.
+
+6. Run the container again if needed
+docker start -ai phone-container
+
+
+7. Remove the container after completing the experiment (optional)
+docker rm phone-container
+
+
+Note: This program uses the standard telephone keypad mapping (ABC=2, DEF=3, and so on). It accepts letters and digits and formats the result only when the converted number contains exactly 10 digits.
+3. Selenium suite components and Java automated testing
+A. Components of Selenium Suite
+Selenium is an open-source tool used to automate web browsers for testing web applications.
+
+
+
+
+
+
+
+
+
+
+1. Selenium IDE
+
+A browser extension used to record, play back, and debug test cases without writing much code.
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Selenium WebDriver
+
+Automates browsers using programming languages such as Java, Python, and C#. It directly communicates with browser drivers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. Selenium Grid
+
+Executes test cases on multiple machines, browsers, and operating systems in parallel.
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Selenium RC (Remote Control)
+
+An older Selenium component that allowed automated browser testing through a server. It is deprecated and replaced by WebDriver.
+
+
+
+Advantages of Selenium:
+- Supports multiple browsers.
+- Supports different programming languages.
+- Open-source and free.
+- Supports parallel testing.
+- Useful for automating web applications.
+B. Java program – FirstSeleniumPro1.java
+Objective: Open Google Chrome, navigate to Google, verify the page title, and close the browser.
+Step 1: Create a Java Maven project
+In NetBeans:
+1. Open NetBeans.
+2. Select File → New Project.
+3. Select Java with Maven → Java Application.
+4. Enter project name: FirstSeleniumPro1.
+5. Click Finish.
+Step 2: Add Selenium dependency
+Open pom.xml and add this dependency inside the <dependencies> section:
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.27.0</version>
+</dependency>
+
+
+Step 3: Create FirstSeleniumPro1.java
+Add this Java code:
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FirstSeleniumPro1 {
+    public static void main(String[] args) {
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.get("https://www.google.com");
+
+        String title = driver.getTitle();
+
+        System.out.println("Page Title: " + title);
+
+        if (title.contains("Google")) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Test Failed");
+        }
+
+        driver.quit();
+    }
+}
+
+
+
+Step 4: Run the program
+1. Save the Java file.
+2. Ensure Google Chrome is installed.
+3. Right-click the project in NetBeans.
+4. Select Clean and Build.
+5. Select Run.
+Selenium 4.6 and later includes Selenium Manager, which can automatically manage the appropriate ChromeDriver in normal supported setups. You generally do not need to download ChromeDriver manually.
+Step 5: Expected output
+Page Title: Google
+Test Passed
+
+BUILD SUCCESSFUL
+
+
+The Chrome browser should open Google, retrieve its page title, print the test result, and close.

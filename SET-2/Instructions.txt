@@ -1,0 +1,280 @@
+Step 2: Execute Git commands in order
+
+Run these commands from inside the GitSCM folder.
+No.	Git command	Purpose
+1	git --version	Check Git installation
+2	git config --global user.name "Your Name"	Set username
+3	git config --global user.email "you@example.com"	Set email
+4	git init	Initialize repository
+5	git status	Check working tree status
+6	git add index.html	Add file to staging
+7	git status	Check staged changes
+8	git commit -m "Initial commit"	Save changes
+9	git log --oneline	View commit history
+10	git branch	Display branches
+11	git branch feature	Create a branch
+12	git checkout feature	Switch branch
+13	git checkout main	Switch to main
+14	git remote add origin https://github.com/USERNAME/GitSCM.git	Connect GitHub repository
+15	git branch -M main	Rename branch to main
+16	git push -u origin main	Push code to GitHub
+17	git pull origin main	Download latest changes
+18	git clone REPOSITORY_URL	Copy a remote repository
+
+Important: Before executing command 14, create an empty repository named GitSCM on GitHub. Replace USERNAME with your GitHub username. Execute commands 13–16 in the order shown; the branch rename must happen before pushing.
+
+To make the feature branch useful in the practical, create and commit a change on it before switching back to main.
+
+After command 12, execute:
+echo This file was created in feature branch. > feature.txt
+git add feature.txt
+git commit -m "Added feature file"
+
+
+Then continue with commands 13–16, adding this merge command after switching to main:
+git merge feature
+
+
+For command 18 (git clone), use a separate location or a new CMD window; cloning the same repository inside its own folder is unnecessary.
+
+Expected result: Your GitHub repository should contain index.html and feature.txt, and git log --oneline should display your commits.
+
+2. Source Code Management on GitHub using Feature Branches and Pull Requests
+A. Aim
+To practice collaborative development using GitHub feature branches and pull requests.
+B. Steps and commands in order
+Step 1: Create a GitHub repository
+1. Open GitHub.
+2. Click New repository.
+3. Enter repository name: FeatureBranchDemo.
+4. Select Public.
+5. Click Create repository.
+Step 2: Clone the repository
+
+Open CMD and execute:
+cd %USERPROFILE%\Desktop
+git clone https://github.com/USERNAME/FeatureBranchDemo.git
+cd FeatureBranchDemo
+
+
+Replace USERNAME with your GitHub username.
+
+Step 3: Create a sample file
+
+Create index.html:
+<html>
+<head>
+    <title>Feature Branch Demo</title>
+</head>
+<body>
+    <h1>Welcome to GitHub</h1>
+</body>
+</html>
+
+
+Step 4: Add and commit the initial file
+git add .
+git commit -m "Initial commit"
+git push origin main
+
+
+Step 5: Create a feature branch
+git branch feature
+git checkout feature
+
+
+Step 6: Make a change
+
+Add this line inside the body of index.html:
+<p>Feature branch development</p>
+
+
+Save the file and execute:
+git status
+git add index.html
+git commit -m "Added feature branch content"
+
+
+Step 7: Push the feature branch to GitHub
+git push -u origin feature
+
+
+Step 8: Create a Pull Request
+1. Open your repository on GitHub.
+2. Select the Pull requests tab.
+3. Click New pull request.
+4. Set the base branch to main.
+5. Set the compare branch to feature.
+6. Click Create pull request.
+7. Add a title and description.
+8. Click Create pull request again.
+
+
+
+
+
+
+
+
+bmeviauac01.github.io
+
+
+Step 9: Merge the Pull Request
+1. Open the created pull request.
+2. Click Merge pull request.
+3. Click Confirm merge.
+Step 10: Update your local main branch
+git checkout main
+git pull origin main
+git log --oneline
+
+
+Expected result
+The feature branch changes should now be merged into the main branch on GitHub.
+C. Important Git commands
+Command	Purpose
+git clone	Clone repository
+git branch	List branches
+git branch feature	Create feature branch
+git checkout feature	Switch branch
+git add .	Stage changes
+git commit -m "message"	Commit changes
+git push -u origin feature	Push feature branch
+git pull origin main	Update local main
+git merge feature	Merge feature branch locally
+
+Viva point: A pull request is a request to review and merge changes from one branch into another. It allows team members to discuss and approve changes before merging.
+
+
+
+
+
+
+
+Yes! For this lab question, Jenkins Freestyle Project is a simpler choice than a Pipeline job. You don't need a Jenkinsfile or Groovy scripting.
+
+We'll keep the same three resume files:
+ResumeJenkins/
+├── index.html
+├── styles.css
+└── validate.js
+
+
+Q3 – Demonstrate CI/CD using Jenkins Freestyle Project
+Step 1: Upload the resume project to GitHub
+Create a GitHub repository named ResumeJenkins.
+
+Open CMD inside your project folder and execute:
+git init
+git add .
+git commit -m "Created HTML Resume"
+git branch -M main
+git remote add origin https://github.com/USERNAME/ResumeJenkins.git
+git push -u origin main
+
+
+Step 2: Open Jenkins
+Open Jenkins Dashboard.
+1. Click New Item.
+2. Enter project name: Resume-Freestyle.
+3. Select Freestyle project.
+4. Click OK.
+
+
+
+
+
+
+
+
+medium.com
+
+
+Step 3: Configure Source Code Management
+Under Source Code Management:
+- Select Git.
+- Repository URL: https://github.com/USERNAME/ResumeJenkins.git
+- Branch Specifier: */main.
+Step 4: Configure Build Triggers
+Under Build Triggers:
+
+Select:
+Poll SCM
+Enter:
+H/2 * * * *
+
+
+This checks GitHub approximately every two minutes for changes.
+Step 5: Configure Build Steps
+Under Build Steps:
+1. Click Add build step.
+2. Select Execute Windows batch command.
+3. Enter:
+echo Building Resume Application
+
+if not exist index.html exit /b 1
+if not exist styles.css exit /b 1
+if not exist validate.js exit /b 1
+
+echo All required files found
+
+if not exist deploy mkdir deploy
+
+copy /Y index.html deploy\index.html
+copy /Y styles.css deploy\styles.css
+copy /Y validate.js deploy\validate.js
+
+echo Resume deployment successful
+
+
+This checks all three files and copies them into a deploy folder.
+Step 6: Save and execute
+1. Click Save.
+2. Click Build Now.
+3. Open the build number.
+4. Click Console Output.
+Step 7: Expected output
+Building Resume Application
+
+All required files found
+
+1 file(s) copied.
+1 file(s) copied.
+1 file(s) copied.
+
+Resume deployment successful
+
+Finished: SUCCESS
+
+
+Build Successful
+Step 8: Demonstrate Continuous Integration
+Make a change to index.html, for example:
+<h1>My Updated Resume</h1>
+
+
+Then execute:
+git add .
+git commit -m "Updated resume"
+git push origin main
+
+
+Jenkins detects the GitHub changes during its next SCM polling check and automatically starts another build.
+Jenkins Freestyle workflow
+Developer updates HTML files
+
+GitHub repository
+
+Jenkins Poll SCM
+
+Build and Test
+
+Deploy files into deploy folder
+
+
+Why Freestyle is better for this experiment:
+- No Jenkinsfile required.
+- No Groovy programming required.
+- Easy to configure through the Jenkins interface.
+- Supports GitHub integration and automatic build triggers.
+- Suitable for demonstrating a basic CI/CD workflow.
